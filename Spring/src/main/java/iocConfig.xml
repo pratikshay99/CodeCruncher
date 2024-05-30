@@ -9,8 +9,10 @@
 		
 		 <bean id="SimCard" class="com.springcore.ioc.Jio"></bean>  -->
 
-	<bean id="SimCard" class="com.springcore.ioc.Jio"></bean>	
-
+	<bean id="SimCard" class="com.springcore.ioc.Airtel"></bean>	
+	
+	<!-- <bean id="AirtelSimCard" class="com.springcore.ioc.Airtel"></bean>-->
+	
 	<!-- we have to pass the unique id & Class name for which you want to create 
 		the bean -->
 

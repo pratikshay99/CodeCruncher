@@ -18,5 +18,7 @@ public class Mobile {
 		Sim sim = ac.getBean("SimCard", Sim.class);
 		sim.calling();
 		sim.data();
+		//now o/p : Airtel Calling  Airtel Data
+
 	}
 }
