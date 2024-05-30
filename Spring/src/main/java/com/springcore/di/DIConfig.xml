@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+       https://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<!-- DI: 3 ways to inject values in Setter/Property Injection -->
+
+	<!-- Note: property name is same exactly as variable name in provided class -->
+
+	<!-- I. Value as element -->
+	<bean class="com.springcore.di.Student" name="s1">
+		<property name="studentID">  <!-- Student [studentID=12, studName=null] -->
+			<value>12</value>
+		</property>
+		<!-- <property name="studName"> Student [studentID=12, studName=Pratiksha] 
+			<value>"Pratiksha"</value> </property> -->
+	</bean>
+
+	<!-- II. Value as attribute -->
+	<bean class="com.springcore.di.Student" name="s2">
+		<property name="studentID" value="123"></property>
+		<property name="studName" value="Pratiksha" />
+	</bean>
+
+	<!-- III. using P-schema -->
+	<!-- To use p-schema in <beans> configuration below configuration line is manadatory -> 
+			xmlns:p="http://www.springframework.org/schema/p" -->
+	<bean class="com.springcore.di.Student" name="s3" p:studentID="34"
+		p:studName="Pratu"></bean>
+	<bean class="com.springcore.di.Student" name="s4" p:studentID="4"
+		p:studName="Pratuuu" />
+
+</beans>
