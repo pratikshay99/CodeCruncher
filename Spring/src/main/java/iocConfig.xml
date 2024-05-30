@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+       https://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- In below code, cannot find calss Jio exception is occuring so provide 
+		whole path,
+		
+		 <bean id="SimCard" class="com.springcore.ioc.Jio"></bean>  -->
+
+	<bean id="SimCard" class="com.springcore.ioc.Jio"></bean>	
+
+	<!-- we have to pass the unique id & Class name for which you want to create 
+		the bean -->
+
+</beans>

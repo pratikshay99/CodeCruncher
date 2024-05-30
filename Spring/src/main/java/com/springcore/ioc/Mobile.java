@@ -1,16 +1,21 @@
 package com.springcore.ioc;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 public class Mobile {
 
 	public static void main(String[] args) {
-
-		// Creating instance of Sim interface inside main() method
-		// with reference to Jio class constructor invocation
-		Sim sim = new Jio();
+		/* Without IOC */
+		// Sim sim = new Jio();
 
 		// Sim sim = new Airtel();
 		// Sim sim = new Vodafone();
 
+		/* With IOC */
+
+		ApplicationContext ac = new ClassPathXmlApplicationContext("iocConfig.xml");
+		Sim sim = ac.getBean("SimCard", Sim.class);
 		sim.calling();
 		sim.data();
 	}

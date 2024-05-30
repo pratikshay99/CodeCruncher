@@ -20,3 +20,7 @@ package com.springcore.ioc;
  * “beans.xml“.
  * 
  **/
+
+//spring Framework 6.2.x: JDK 17-25 (expected)
+//Spring Framework 6.1.x: JDK 17-23
+//Spring Framework 6.0.x: JDK 17-21
