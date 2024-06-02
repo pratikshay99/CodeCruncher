@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+       https://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Sequence of Declaration of beans doesn't matter -->
+	<!-- declared B bean as A is dependant on B -->
+	<bean name="bBean" class="com.springcore.ref.B">
+		<property name="by" value="90" />
+	</bean>
+
+	<!-- A class bean where A is dependent on B -->
+	<bean name="aBean" class="com.springcore.ref.A">
+		<property name="ax" value="00" />
+		<property name="bObjinA">
+			<ref bean="bBean" />
+		</property>
+	</bean>
+</beans>
