@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+       https://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean name="collectionBean" class="com.springcore.collections.Emp">
+		<!-- String -->
+		<property name="name" value="Radhe" />
+
+		<!-- List -->
+		<!-- below syntax for single list value List: [12345] -->
+		<!-- <property name="phones">
+			<value>12345</value>
+		</property> -->
+		<property name="phones">
+			<list>
+				<value>7654321</value>
+				<value>4654</value>
+				<null />
+			</list>
+		</property>
+		<!-- below syntax for empty list value List: [] -->
+		<!-- <property name="phones">
+			<value> </value>
+		</property> -->
+		<!-- Set -->
+		<property name="addresses">
+			<set>
+				<value>Satara</value>
+				<value>Pune</value>
+				<value>Satara</value>
+			</set>
+		</property>
+
+		<!-- Map -->
+		<property name="courses">
+			<map>
+				<entry key="Java" value="2months" />
+				<entry key="c" value="1month" />
+			</map>
+		</property>
+	</bean>
+
+</beans>
