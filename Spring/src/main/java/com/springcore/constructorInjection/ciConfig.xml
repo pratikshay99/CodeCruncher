@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:c="http://www.springframework.org/schema/c"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+       https://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- In constructor-arg you can use value as 3 ways: 
+				a. as a attribute/tag 
+				b. as a property/element 
+				c. as c-schema -->
+				
+	<!-- E.g using c-schema -->
+	<bean class="com.springcore.constructorInjection.Certi" name="CertiBean" c:name="SSL Certificate" />		
+	
+	<!-- 1 <constructor-arg> means 1 parameter: sequence of parameters passed matters: 
+		whether you are not defining any type of args, but in constructor 
+		it's going to convert arguments to expected type so here in below e.g if you 
+		are passing "Pratiksha" as a 2nd argument the it gives us exception as: 
+		java.lang.NumberFormatException: For input string: "Pratiksha" => Failed to convert value of type 'java.lang.String' to required type 'int' -->				
+	<bean class="com.springcore.constructorInjection.Person" name="PersonBean">
+		
+		<constructor-arg>
+			<value>Pratiksha</value>   <!-- E.g of value is used as property -->
+		</constructor-arg>
+		
+		<constructor-arg value="12" />  <!-- E.g of value is used as attribute -->
+		
+	<!-- can define type also as below: type is used to resolve ambiguity where 2 constructors with different args
+		<constructor-arg value="12" type="int"/> -->
+				
+		<constructor-arg ref="CertiBean" />   <!-- passing object as a argument -->
+	</bean>
+</beans>
