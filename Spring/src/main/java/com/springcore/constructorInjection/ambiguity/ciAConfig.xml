@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:c="http://www.springframework.org/schema/c"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+       https://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean class="com.springcore.constructorInjection.ambiguity.Addition" name="additionBean">
+	<!-- This will create ambuiguity whichconstruct has to invoke
+	<constructor-arg value="12" />
+	<constructor-arg value="34" /> -->
+	
+	<!-- Solution to avoide ambuiguity problem is to add type -->
+	<constructor-arg value="12" type="int" />
+	<constructor-arg value="34" type="int" /> 
+	<!-- You can change index of parameter to value go 
+	<constructor-arg value="12" index="1" />     #value of b
+	<constructor-arg value="34" index="0" />     #valuse of a -->  
+	</bean>
+</beans>
