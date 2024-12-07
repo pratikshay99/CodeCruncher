@@ -31,6 +31,8 @@ public class ReadFile {
                 System.out.print((char) data);
                 // Convert byte to character
             }
+            fos.close();
+            fis.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
