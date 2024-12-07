@@ -1,1 +1,1 @@
-Java + Spring Core
+Java + Spring Core + Angular
