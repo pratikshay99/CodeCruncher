@@ -1,0 +1,160 @@
+JDK: Java Development Kit, contains tool & libraries for development, compilers & debuggers to compile
+JRE: Runtime Env, included in jdk, provides libraries & JVM required to run pgm
+JIT: Just In Time compiler, for performance improvement, enabled by default, included in JVM.
+JVM: Virtual machine, abstract machine, executes bytecode, diff jvm for diff hw & sw platforms, platform independent, responsible for loading verifying & executing bytecode. diff types of memory areas allocated by JVM:
+1. class Loader: to load class files.
+2. class area: stores class-level data of every class such as the runtime constant pool, field and method data, the code for methods.
+3. Heap:  objects are created or objects are stored., to allocate memory to objects at run time
+4. Stack: stores local variables & partial results at runtime, Each thread creates private JVM stack at time of thread creation.
+5. Native Method Stack: reserved for all native methods used in application.
+6. Program Counter Register: contains address of JVM instruction that is currently being executed.
+======================================================================================================================================================================
+main used for main method is keyword in Java?=> NO, name of method, multiple methods with same name main in class file.
+psvm, access modifiers(public, static) + return type + method name
+psvm(String a[])---value of String array of arguments is empty, not null.
+======================================================================================================================================================================
+Object Oriented Programming languages(Java, C++: follow concepts of OOPS- Encapsulation, Abstraction, Polymorphism & Inheritance
+Object Based Programming languages(JS, VBScript): follow some features of OOPS but do not provide support for Polymorphism & Inheritance. 
+======================================================================================================================================================================
+
+**Constructor: object-oriented language, create and use objects. Constructor used to create object & set initial state of object, same name as class
+name, no other way to create object, provides a default constructor for every object. if we overload constructor then have to implement default constructor, returns object created by it, not support inheritance of constructor
+-cannot be final, static, or abstract: 
+a. final: means do not want any class to override it, but constructor cannot be overridden. So no use of marking it final.
+b. abstract: has no body & should be implemented in child class, constructor called implicitly when new keyword is used. Therefore it needs body.
+c. static: static methods called without creating object, access static variables & methods, but constructor purpose to initialize object, cant's static cz static 	don't have access to instance variable, no use of marking constructor static
+======================================================================================================================================================================
+
+**String: immutable(can't modify) for security purpose, Use for constant or infrequently changing strings, checks value is already present in pool if not then only, using new keyword creates diff objects of same values(create value outside pool but creates in heap only), s.charAt[0] not s[0].
+issue: series=""; series=""+"a"; series="a"+"b"=ab.... new object created everytime(strings are immutable), e=wastage of mem=>sol=>
+StringBuilder: changes stored in original object, mutable, toString not required(calls internally), Use for mutable strings in single-threaded contexts where performance is critical.
+StringBuffer: when working with mutable strings in a multi-threaded context, slow due to synchronization, thread safe:
+
+**Thread-Safe: thread is already working on object & preventing another thread on working on the same object, Immutable objects are inherently thread-safe, meaning multiple threads can safely access the same String object.
+not thread safe: multiple threads working on same data, & value of data changing
+
+**Synchronized: only 1 thread can access shared resource at a time/ 1 thread at particular time to complete given task entirely e.g withdrawl of money
+Builder:Not Thread-Safe: Methods are not synchronized, so it is not safe for multi-threaded use.
+
+String: immutable, thread safe, string Pool, concatenation method: +, for fixed content
+StringBuilder: mutable, heap, append(), for frequently changed content in single threaded scenario
+StringBuffer: mutable, thread safe(synchronized), heap, append(), for frequently changed content in multi-threaded scenario
+performance: Builder > Buffer > String
+======================================================================================================================================================================
+== (comparator) compares objects references
+equals() compares 2 given strings based on the data
+equalsIgnoreCase(): caseinsesnsitive
+======================================================================================================================================================================
+**
+List: duplicate, null values, maintains insertion order,(ArrayList, LinkedList, Vector), (ArrayList, LinkedList), shopping cart
+Set: x duplicate(duplicates igonred), only 1 null value, x insertion order(HashSet)(may maintain insertion order (TreeSet, LinkedHashSet)),(HashSet, TreeSet, LinkedHashSet), Unique Users
+Map: x duplicate(Overwrites value of duplicate key),single null key & any number of null values, x insertion order(HashMap)may insertion order(TreeMap, LinkedHashMap), (HashMap, TreeMap, LinkedHashMap), dictonary
+======================================================================================================================================================================
+
+**new ArrayList() vs Arrays.asList()
+new Arraylist: Dynamic resize(adding or removing elements frequently), Supports add/remove, modifiable list, Standalone ArrayList object
+
+Arrays.asList():quickly create list & initialize with values in one line, Fixed size(desn’t grow or shrink), not add/remove elemnets(modify existing elements), Quick initialization for read-only lists, Backed by an array, cases where list not expected to change.
+
+e.g List<String> names = Arrays.asList("Alice", "Bob", "Charlie"); shorter than List<String> names = new ArrayList<>();
+names.add("Alice");
+names.add("Bob");
+======================================================================================================================================================================
+this vs super= this() vs super():
+this: used with the objects only.
+represent current instance/object of class,  access only current class methods, data members & member functions, can invoke from static context, must be 1st sentence in method/constructor, passed as argument in method/constructor call, can used to return current class instance, 
+this(): used with constructors only. to call 1 constructor from other of same clas, to call default constructor of current class,
+
+super: refers immediate parent class object, to call parent class’ variables and methods, variables & methods to be called through super keyword can be done at any time,
+ SUPER(): refer parent class constructors, call parent class’ constructors only, access parent class data members & member functions, can't invoke from static context,  must be 1st sentence in method/constructor
+
+-cannot have them together in same constructor as both need to be 1st statement in block
+======================================================================================================================================================================
+
+https://medium.com/@chandantechie/tricky-java-multithreading-interview-question-and-answer-with-examples-79e420ab4a46
+https://www.digitalocean.com/community/tutorials/java-hashmapn
+======================================================================================================================================================================
+-break can only exit out of an enclosing loop or an enclosing switch statement 
+-switch case: case sensitive, equals() method used by switch-case implementation, so add null check to avoid NullPointerException i.e uses String.equals() method to compare the passed value with case values
+======================================================================================================================================================================
+
+**Java 8 features:**
+Lambda Expressions: They allow for more concise code, especially when working with functional-style operations on collections. For example, using stream().filter() for filtering data instead of traditional for loops.
+Streams API: Enables functional-style operations on streams of elements (e.g., filtering, mapping, reducing). It improves readability and makes code more expressive.
+Default Methods in Interfaces: With default methods, I can add methods to interfaces without breaking existing implementations.
+Optional Class: Helps to avoid NullPointerException by providing a container object which may or may not contain a value. It’s used in scenarios where we want to explicitly handle null values.
+Date and Time API: Replaces the old java.util.Date with java.time classes for better clarity and immutability.
+======================================================================================================================================================================
+
+**Multithreading**: allows concurrent execution of two or more parts of a program for maximum utilization of CPU. Each part of such a program is called a thread. i.e application can create a small unit of tasks to execute in parallel, We can create Threads by either implementing Runnable interface or by extending Thread Class.
+Java provides two approaches for creating threads one by implementing the Runnable interface and the other by inheriting the Thread class. However, one important feature missing with the implementation of the Runnable interface is that it is not possible for a thread to return something when it completes its execution, i.e., when the run() method execution is over. In order to support this feature, the Java Callable interface is used.
+======================================================================================================================================================================
+
+Runnable vs callable: Both interfaces are designed to represent a task that can be run by multiple threads.  Callable is same as runnable but callable returns result & throws checked exception, runnable throws runtime i.e uncheced 
+callable: call()[single no arg method], can’t create a thread by passing callable as a parameter.
+Runnable: run() 
+======================================================================================================================================================================
+
+**try-with-resources: automatically closing resources when they are no longer needed(db, nw connections, files, streams, readers), Ensures Scanner properly closed after use, to avoid memory leaks, No need finally block to close resource, If resources are not closed, they remain allocated, which can cause performance problems in long-running programs/ will stay open, preventing them from being released back to system.
+ ======================================================================================================================================================================
+I use Hibernate as the ORM framework for managing database operations. It maps Java objects to database tables and simplifies CRUD operations. I define entities with @Entity and use JPA annotations (@Id, @GeneratedValue, etc.) for primary keys and relationships.
+======================================================================================================================================================================
+Autoboxing is the automatic conversion of primitive types to their corresponding wrapper classes. For example, an int can automatically be converted to an Integer object.
+Unboxing is the reverse process, where an Integer object is converted back to an int value.
+======================================================================================================================================================================
+
+HashMap is part of the Java Collections framework and stores data in key-value pairs. It is unordered and does not maintain any order of keys. It allows null values and keys. Its time complexity for basic operations (like put, get) is O(1) on average.
+TreeMap is a SortedMap, meaning it keeps the keys in a sorted order according to their natural ordering or a custom comparator. It does not allow null keys (though null values are allowed). Operations like put, get have O(log n) time complexity due to the underlying Red-Black Tree data structure.
+======================================================================================================================================================================
+Java a completely object-oriented programming language? not a pure object-oriented programming language, because it has direct access to primitive data types. And these primitive data types don't directly belong to the Integer classes
+======================================================================================================================================================================
+
+Collections: group of individual objects that represent a single entity
+collection vs collections
+======================================================================================================================================================================
+
+**Method reference vs lambda expression:
+forEach: to perform an action (like printing) on each element of collection/stream, part of functional programming features introduced in Java 8.
+
+Method reference: list.forEach(System.out::println); ....  refers to the println method of System.out, shorthand for lambda expression, Shorter & readable, 
+list.forEach(element -> System.out.println(element));
+======================================================================================================================================================================
+Shadowing: variables of same name in overlapping scope where variable in low level scope overrides variable of high level scope.
+======================================================================================================================================================================
+varArgs(variable length arguments): take variable number of arguments, vararg parameter must last in list, when don't know how many args/inputs we giving
+e.g static void mul(int a, String b, int ...i)   ==== mul(2,"pratiksha", 4,6,8,9,3,11)
+======================================================================================================================================================================
+-scanner: reading different types of input (mixed data types), Automatically parses data into types (nextInt(), nextDouble()),Throws InputMismatchException or NoSuchElementException for invalid input types. 
+-BufferedReader: For better performance or larger inputs, reads text (Strings), Primarily reads text (Strings)[scanner slow due to additional parsing logic], Throws IOException must handled.) e.g String input = br.readLine(); // Read a single line of input
+            			int number = Integer.parseInt(input); // Convert the input to an integer
+======================================================================================================================================================================
+-Read File:
+Scanner uses delimiters to tokenize the input (default is whitespace), lead to unexpected results if file contains special characters or formatting.
+Small Text Files: Use Files.readString() or Files.lines().
+Large Text Files: Use BufferedReader or Files.lines() for memory efficiency.
+Binary Files: Use FileInputStream.
+======================================================================================================================================================================
+-System.exit(int status): to terminate currently running Java program,Instead of forcing immediate exit can use a boolean flag to break out of loop,  return;
+======================================================================================================================================================================
+-private Floor[] floors;: List could be used for dynamic resizing, but an array is simpler and sufficient if the number of floors is fixed
+-private List<Vehicle> parkedVehicles;: A Map with token IDs as keys could allow faster lookups but adds complexity.
+======================================================================================================================================================================
+Initialization at ArrayList time of definition
+     ArrayList<Integer> list = new ArrayList<>(List.of(1, 2, 3, 4, 5));
+    ArrayList<Integer> list = new ArrayList<>(Stream.of(1, 2, 3, 4, 5).collect(Collectors.toList()));
+    ArrayList<Integer> list = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5));
+======================================================================================================================================================================
+
+O(1) < O(log N) < O(N) < O(N log N) < O(N^2) < O(N^3) < O(2^N) < O(N!)
+
+GET: Retrieve data from the server. It should be safe and idempotent (same request returns the same result every time).
+POST: Send data to the server to create a new resource.
+PUT: Update an existing resource completely.
+PATCH: Update part of an existing resource.
+DELETE: Remove a resource.
+OPTIONS: Describe the communication options for the target resource.
+HEAD: Retrieve metadata about a resource (like GET but without the response body).
+
+HashMap: Implements the Map interface, stores elements in unsorted order, and allows null keys/values.
+TreeMap: Implements the Map interface, stores elements in sorted order (based on keys' natural ordering or a custom comparator), and does not allow null keys.
+
