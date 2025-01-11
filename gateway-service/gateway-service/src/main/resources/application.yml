@@ -1,0 +1,16 @@
+server:
+  port: 8085
+spring:
+  application:
+    name: API-GATEWAY-SERVICE
+  cloud:
+    gateway:
+      routes:
+        - id: c-SERVICE
+          uri: http://localhost:8001
+          predicates:
+            - Path=/serviceA/**
+        - id: serviceB
+          uri: http://localhost:8002
+          predicates:
+            - Path=/serviceB/**
