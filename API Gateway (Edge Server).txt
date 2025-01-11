@@ -1,0 +1,164 @@
+API Gateway: (Edge Server) e.g receptionist
+-acts as single point of entry for collection of microservices
+-all microservices accessed through single port or route.
+-acts as an intermediary between clients and backend services.
+======================================================================================================================================================================
+**2 ways to create api gateway: 
+1. Programmatic configuration: create Spring Cloud Gateway as Java bean.
+2. Property configuration: create components of Spring Cloud Gateway as properties in application.properties/application.yml file.
+======================================================================================================================================================================
+**Architecture: 3 components:
+1. Route: consist of ID, destination URI, predicates, and filters.
+2. Predicates: 
+	same as Java 8 function predicate, 
+	evaluates input against condition defined by Predicate & returns true if condition satisfied
+	used to match HTTP requests, route is matched if Predicate returns true.
+3. Filter Chain: series of filters applied to incoming requests & responses. used for authentication, requests or response transformation, and many more.
+======================================================================================================================================================================
+**features:
+-Routing: dynamic routing, Path Rewriting
+-security: managing only authorized clients are able to access resources
+-Transformation: 
+-Rate limiting & Throttling: prevent 1 client from overwhelming back end services, enforce rate limits (how much request can send)
+-caching: any common requests occur it save responses & this make faster when those ruquests made again & again
+-Logging & monitoring: keep track of all interactions passing through it
+-translation: translate data to match client's preferences
+-Error handling
+-Load balancing: distribute traffic to multiple instances of service to prevent overload
+-modify request & response
+-Circuit Breaker
+-Authentication and authorization
+======================================================================================================================================================================
+**Implementation using:
+1. Spring cloud gateway
+2. Zuul
+======================================================================================================================================================================
+a. dependencies:
+Gateway (SPRING CLOUD ROUTING)
+Spring Web
+Eureka Discovery Client
+
+Spring Cloud gateway:
+<dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-starter-gateway</artifactId>
+</dependency>
+
+Note: If you include the starter, but you do not want the gateway to be enabled, set
+spring.cloud.gateway.enabled=false
+
+b. 
+server:
+  port: 8085
+spring:
+  application:
+    name: API-GATEWAY-SERVICE
+  cloud:
+    gateway:
+      routes:
+        - id: DEMO-SERVICE
+          uri: http://localhost:9090
+          predicates:
+            - Path=/demo/**
+---------------------------------------
+id: any id.
+uri: port in which your microservice is running
+predicates (- Path): any request starting with path “/demo/**” route it to DEMO-SERVICE.
+
+c. develop demo service,create controller, get same response using API gateway port 8085.
+======================================================================================================================================================================
+** API Gateway tools:**
+Spring Cloud Gateway: Java-based API Gateway for Spring Boot applications.
+Zuul: Provided by Netflix, designed for microservices.
+AWS API Gateway: Managed service by AWS.
+Kong: Open-source, built on NGINX.
+Traefik: Cloud-native, supports Kubernetes.
+======================================================================================================================================================================
+Rate limiting restricts number of requests client can make to API in given time window.
+======================================================================================================================================================================
+**role of caching in API Gateways:**
+-cache responses from microservices to reduce latency, minimize load, and improve user experience.
+-Cache invalidation policies like time-to-live (TTL) and etag-based validation are commonly used.(Data in the cache can become outdated or "stale" when the original source changes. Cache invalidation is the process of removing or updating cached data to ensure it stays fresh and accurate.)
+======================================================================================================================================================================
+**API Gateway authentication:**
+API Gateways authenticate incoming requests using mechanisms like:
+OAuth 2.0 (Access Tokens).
+JWT (JSON Web Tokens).
+API Keys.
+Basic Authentication.
+======================================================================================================================================================================
+Request Aggregation: combining responses from multiple microservices into  single response to client, reducing need for multiple client calls.
+======================================================================================================================================================================
+**API Gateway Vs Load balancer:**
+ both deal with handling incoming requests, but they serve different purposes & operate at different levels of system architecture
+
+API Gateway:
+Acts as a facade for multiple microservices, providing a single entry point for clients to interact with the backend services.
+Manages API-level concerns, such as request routing, authentication, rate limiting, caching, monitoring, and response transformation.
+Request routing to specific microservices.
+Authentication and authorization (e.g., OAuth, API keys).
+Provides a unified interface for multiple backend services, simplifying client interactions.
+
+Load Balancer:
+Distributes incoming traffic across multiple servers or instances to ensure high availability and scalability.
+Primarily focuses on network-level concerns, such as ensuring that no single server is overwhelmed by traffic.
+Distributing traffic across multiple servers to balance the load.
+SSL/TLS termination for secure communication.
+Focuses on traffic distribution to ensure system reliability and performance.
+e.g Apache HTTP Server Load Balancing, AWS Elastic Load Balancer (ELB), NGINX
+
+Note: In modern architectures, API Gateways often work in conjunction with Load Balancers:
+The Load Balancer distributes incoming traffic across API Gateway instances.
+The API Gateway then routes and manages requests to the appropriate microservices.
+======================================================================================================================================================================
+How does an API Gateway handle circuit breaking?
+-Circuit breaking prevents cascading failures by stopping requests to a failing service.
+-API Gateways use libraries like Hystrix or Resilience4j to monitor service health and trip the circuit when a threshold of failures is reached.
+======================================================================================================================================================================
+What are some challenges of using an API Gateway?
+-Single Point of Failure: If the gateway goes down, it affects the entire system.
+-Latency: Adds overhead to requests.
+-Scalability: Needs to handle traffic spikes.
+-Complexity: Requires proper configuration and maintenance.
+======================================================================================================================================================================
+Explain how security is enforced using an API Gateway.
+Authentication: Verifying user identity (e.g., via OAuth or JWT).
+Authorization: Ensuring users can access only permitted resources.
+Input Validation: Checking for SQL injection, XSS, etc.
+HTTPS: Enforcing secure communication.
+======================================================================================================================================================================
+How do API Gateways support versioning?
+API Gateways handle versioning using:
+URL Versioning: /v1/resource
+Header Versioning: X-API-Version: v1
+Parameter Versioning: /resource?version=v1
+======================================================================================================================================================================
+How does an API Gateway integrate with a service discovery system?
+API Gateways use service discovery tools like Eureka, Consul, or Zookeeper to dynamically route requests to the appropriate microservice instances.
+======================================================================================================================================================================If one microservice is down, how should an API Gateway handle requests?
+Use fallback strategies like:
+Returning a cached response.
+Returning a default response.
+Showing a user-friendly error message.
+Implementing a circuit breaker to prevent further failures.
+======================================================================================================================================================================
+How would you troubleshoot latency issues in an API Gateway?
+Check for:
+High traffic leading to bottlenecks.
+Inefficient routing or aggregation logic.
+Network latency between the gateway and microservices.
+Database or backend service slowdowns.
+======================================================================================================================================================================
+How do you monitor an API Gateway?
+Use monitoring tools to track:
+API metrics (e.g., response time, throughput, error rates).
+Logs for debugging and audits.
+Distributed tracing tools (e.g., Zipkin, Jaeger) to analyze end-to-end requests.
+======================================================================================================================================================================
+Design an API Gateway for a large e-commerce system.
+Key considerations:
+Authentication: OAuth 2.0 for secure access.
+Rate Limiting: Protect APIs from abuse.
+Load Balancing: Distribute traffic to multiple instances.
+Aggregation: Combine responses from product, order, and payment services.
+Monitoring: Implement tracing and logging for observability.
