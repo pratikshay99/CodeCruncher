@@ -162,3 +162,5 @@ Rate Limiting: Protect APIs from abuse.
 Load Balancing: Distribute traffic to multiple instances.
 Aggregation: Combine responses from product, order, and payment services.
 Monitoring: Implement tracing and logging for observability.
+
+https://chatgpt.com/c/67826a78-3d28-8005-9337-1e2dc54421f4
