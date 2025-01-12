@@ -1,0 +1,116 @@
+REST API:
+-Representational State Transfer
+-web standards based architecture
+-uses HTTP Protocol
+-revolves around resource(each component)
+**Features:**
+Stateless: Each request from client contains all information needed to process it, Server does not store any client session data between requests
+Cacheable: Responses must define whether they are cacheable.
+Uniform Interface: Resource identification via URIs and consistent usage of HTTP methods.
+Client-Server Architecture: Separation of concerns between client and server.
+Layered System: Multiple layers of servers may exist between client and server.
+======================================================================================================================================================================
+request/response <-> Controller(Presentation layer): accept requests<-> Service Layer(main Logical) <-> Dao/Repository layer <-> DB
+======================================================================================================================================================================
+Without explicit status codes:
+Default status codes may not reflect the actual outcome. For example:
+Returning 200 OK when a record wasn't found (instead of 404 Not Found) might mislead clients
+Success and failure responses may default to 200 OK, even for error cases.
+With explicit status codes:
+Appropriate codes like 404 Not Found or 400 Bad Request are used, improving clarity.
+Clients (and automated systems) can rely on status codes to make decisions (e.g., retries, error handling).
+Proper status codes help testers and developers identify issues quickly.
+======================================================================================================================================================================
+**HTTP methods:
+GET: Retrieve data from the server.
+POST: Create a new resource on server.
+PUT: Update an existing resource or create if it doesn't exist.
+PATCH: Partially update an existing resource.
+DELETE: Remove a resource from the server.
+======================================================================================================================================================================
+HTTP status codes indicate the outcome of a request:
+2xx (Success):
+200 OK: Request succeeded.
+201 Created: A new resource was created.
+4xx (Client Error):
+400 Bad Request: Request is malformed(Domain validation errors, missing data)
+401 Unauthorized: Authentication required(missing or invalid authentication token.)
+403: Forbidden
+404 Not Found: Resource doesn't exist.
+5xx (Server Error):
+500 Internal Server Error: Server encountered an issue.
+======================================================================================================================================================================
+PUT: Updates the entire resource. If a field is missing in the payload, it will overwrite with null or default values.
+PATCH: Partially updates the resource, changing only the specified fields.
+======================================================================================================================================================================
+How is authentication handled in REST APIs?
+API Keys: A unique key provided to the client.
+Token-based Authentication:
+JWT (JSON Web Tokens): A self-contained token that includes the user's details.
+OAuth2: A robust authentication protocol often used for third-party access.
+======================================================================================================================================================================
+Synchronous API: The client waits for a response before proceeding.
+Asynchronous API: The server sends the response later, allowing the client to continue other tasks (e.g., Webhooks or polling).
+======================================================================================================================================================================
+How do you handle versioning in REST APIs?
+Answer:
+
+URI Versioning: /v1/resource
+Header Versioning: Accept: application/vnd.api+json; version=1.0
+Query Parameter: GET /resource?version=1.0
+======================================================================================================================================================================
+
+11. How can you optimize REST API performance?
+Answer:
+
+Caching: Use response caching mechanisms like Redis or HTTP cache headers.
+Pagination: Avoid returning large datasets; use pagination, filtering, or sorting.
+Compression: Enable gzip or Brotli compression for responses.
+Minimize Latency: Optimize database queries and use connection pooling.
+Load Balancing: Distribute requests across servers.
+
+======================================================================================================================================================================
+12. What are idempotent operations in REST APIs?
+Answer:
+Idempotent operations produce the same result no matter how many times they are executed.
+
+Examples: GET, PUT, DELETE.
+Non-idempotent example: POST (because it creates a new resource every time it's called).
+======================================================================================================================================================================
+13. What are CORS and its significance in REST APIs?
+Answer:
+CORS (Cross-Origin Resource Sharing) is a security feature enforced by web browsers to restrict how resources on a server can be accessed from a different domain.
+
+It allows servers to specify which domains can access their resources using headers like Access-Control-Allow-Origin.
+
+======================================================================================================================================================================
+14. How do you handle errors in REST APIs?
+-Use meaningful HTTP status codes.
+-Return error details in the response body:
+{
+  "error": "Invalid input",
+  "code": 400,
+  "message": "The 'username' field is required."
+}
+-Log server-side errors for debugging.
+======================================================================================================================================================================
+
+Feature	     |	SOAP			REST
+---------------------------------------------------------------------------
+Protocol     |	Strict (uses XML)	Flexible (uses JSON, XML, etc.)
+Statefulness |	Stateful or stateless	Stateless
+Performance  |	Slower (heavy payloads)	Faster (lightweight)
+Complexity   |	High	Low
+======================================================================================================================================================================
+16. How would you design an API for a social media app?
+1.Define resources: Users, Posts, Comments, Likes.
+2.Use appropriate endpoints:
+GET /users/{id}
+POST /posts
+DELETE /comments/{id}
+3.Implement pagination for large data:
+GET /posts?limit=10&offset=20.
+======================================================================================================================================================================
+======================================================================================================================================================================
+======================================================================================================================================================================
+======================================================================================================================================================================
