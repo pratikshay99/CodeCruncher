@@ -28,10 +28,12 @@ If all characters match till the middle, it is a palindrome.
 
 Let's check if "racecar" is a palindrome.
 
-i (Left Pointer)	A[i]	j (Right Pointer)	A[j]	Match?
-        0	'r'	6	'r'	✅ Yes
-1	'a'	5	'a'	✅ Yes
-2	'c'	4	'c'	✅ Yes
-3	'e'	3	'e'	✅ Yes (Middle reached)
+i (Left	     A[i]	    j 	            A[j]	Match?
+Pointer)            (Right Pointer)
+
+0	        'r'	         6	            'r'	       ✅ Yes
+1	        'a'	         5	            'a'	       ✅ Yes
+2	        'c'	         4	            'c'	       ✅ Yes
+3	        'e'	         3	            'e'	       ✅ Yes (Middle reached)
 
 */
