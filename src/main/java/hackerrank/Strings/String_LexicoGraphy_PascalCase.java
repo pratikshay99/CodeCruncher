@@ -1,4 +1,4 @@
-package hackerrank.basics;
+package hackerrank.Strings;
 
 import java.util.Scanner;
 
@@ -16,6 +16,16 @@ public class String_LexicoGraphy_PascalCase {
     }
 }
 /*
+
+Sample Input 0
+hello
+java
+
+Sample Output 0
+9
+No
+Hello Java
+
 * Input Format:
 The first line contains a string . The second line contains another string . The strings are comprised of only lowercase English letters.
 
