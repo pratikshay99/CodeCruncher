@@ -1,4 +1,4 @@
-package basics;
+package Beginner.basics;
 
 public class MCQ {
     public static void main(String[] args) {

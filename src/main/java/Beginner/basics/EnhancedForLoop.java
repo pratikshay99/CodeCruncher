@@ -1,4 +1,4 @@
-package basics;
+package Beginner.basics;
 
 public class EnhancedForLoop {
     public static void main(String a[]) {

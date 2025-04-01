@@ -1,4 +1,4 @@
-package basics;
+package Beginner.basics;
 
 public class ArmStrongNumber {
     public static void main(String[] args) {

@@ -1,4 +1,4 @@
-package basics;
+package Beginner.basics;
 
 import java.io.*;
 import java.nio.file.Files;

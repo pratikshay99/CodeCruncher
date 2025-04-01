@@ -1,4 +1,4 @@
-package basics.Strings;
+package Beginner.Strings;
 
 public class StringReplaceEg {
     public static void main(String[] args) {

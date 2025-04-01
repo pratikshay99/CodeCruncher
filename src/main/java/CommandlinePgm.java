@@ -1,7 +1,7 @@
-/* package basics
+/* package Beginner.basics
 #Placing this class in a package or adding an import statement here will cause an error when running through the command prompt/terminal.
         Error: Could not find or load main class CommandlinePgm
-        Caused by: java.lang.NoClassDefFoundError: basics/CommandlinePgm (wrong name: CommandlinePgm)
+        Caused by: java.lang.NoClassDefFoundError: Beginner.basics/CommandlinePgm (wrong name: CommandlinePgm)
 
  */
 import java.util.Arrays;
