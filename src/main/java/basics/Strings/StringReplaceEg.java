@@ -22,4 +22,19 @@ public class StringReplaceEg {
         \\d → Represents any digit (0-9).
         + → Means "one or more" occurrences of the preceding pattern (digits in this case).
 So, \\d+ matches one or more consecutive digits.
+
+🚀replace() vs replaceAll():
+1️⃣replace(Replaces Exact Matches)
+-(" ", "") Works Only for Single Spaces
+-all spaces (single spaces) are removed.
+-BUT it does not reduce multiple spaces to a single space.
+2️⃣replaceAll() (Works with Regex)
+-uses regex, so it can match patterns like multiple spaces.
+-replaceAll("\\s+", " ") replaces any number of spaces at once.
+
+📌 Replace a specific word	✅ replace("Java", "Python")	❌ replaceAll (Not needed)
+
+-If you are replacing a fixed word like "Java" multiple times in a string, then replace() and replaceAll() will work the same because replace() replaces all occurrences of an exact match.
+Both replace("Java", "Python") and replaceAll("Java", "Python") work identically because "Java" is a fixed word, not a regex pattern.
+If you want to replace based on a pattern (like numbers, spaces, special characters, etc.), then replaceAll() is required because it supports regular expressions (regex), while replace() does not.
 * */
