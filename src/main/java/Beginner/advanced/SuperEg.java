@@ -80,4 +80,11 @@ class Child extends Parent {
         System.out.println("Child constructor");
     }
 }
+✅ Quick Notes:
+Parent p = new Child(); → Polymorphism
+    -You can only call parent methods (unless overridden).
+    -Overridden methods from Child are called at runtime.
+
+Child c = new Child();
+    -You get full access to both parent and child features.
  */
