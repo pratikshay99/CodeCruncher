@@ -62,4 +62,8 @@ Yes, Because static methods belong to the class, and non-static methods have acc
 3️⃣ static Blocks (Initialization Block)
 Runs once when the class is loaded.
 Used for static initialization (e.g., loading config files).
+
+📌 Interviewer Expectation: Why can’t static methods access instance variables? Because instance variables belong to
+objects, but static methods belong to the class.
+
  */
