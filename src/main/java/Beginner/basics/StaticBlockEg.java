@@ -1,17 +1,32 @@
 package Beginner.basics;
 
-/**Output:
-     Static block executed!
-     Constructor
-     Method
+/**
+ * Output:
+ * Static block executed!
+ * Constructor
+ * Method
  */
 class STBE {
+    int n = 10;
+
     STBE() {
         System.out.println("Constructor");
     }
 
     static {
         System.out.println("Static block executed!");
+        // System.out.println(n);        // ❌ Compilation Error
+
+        /*
+     Why does it fail?
+        A static block belongs to the class level, while y is an instance variable (belongs to objects).
+        A static block cannot access non-static variables directly because instance variables do not exist until an
+        object is created.
+        How to fix it?
+        If you really need to access y, you must create an instance inside the static block:
+         */
+        STBE ob = new STBE();
+        System.out.println(ob.n);
     }
 
     void display() {
@@ -36,4 +51,12 @@ Key Takeaways
 ✔ static Methods → Can be called without an object.
 ✔ static Blocks → Runs once when class loads.
 ✔ static Classes → Inner classes that don’t need an instance.
+
+
+Why does it fail?
+        A static block belongs to the class level, while y is an instance variable (belongs to objects).
+        A static block cannot access non-static variables directly because instance variables do not exist until an
+        object is created.
+        How to fix it?
+        If you really need to access y, you must create an instance inside the static block:
 */
