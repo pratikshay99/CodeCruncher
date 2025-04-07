@@ -1,12 +1,12 @@
-package Beginner.advanced;
+package Beginner.OOPS;
 
-class A {
+class A3 {
     static void show() {
         System.out.println("A");
     }
 }
 
-class B extends A {
+class B3 extends A3 {
     static void show() {
         System.out.println("B");
     }
@@ -15,7 +15,7 @@ class B extends A {
 
 public class IsStaticMethodOverridden {
     public static void main(String[] args) {
-        A obj = new B();
+        A3 obj = new B3();
         obj.show();  // Output: A (not B) — because static methods are not overridden!
     }
 }

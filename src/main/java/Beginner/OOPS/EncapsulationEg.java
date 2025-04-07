@@ -1,4 +1,4 @@
-package Beginner.advanced.OOPS;
+package Beginner.OOPS;
 
 public class EncapsulationEg {
     private double balance; // Private variable (data hiding)

@@ -1,4 +1,4 @@
-package Beginner.advanced;
+package Beginner.OOPS;
 
 class Parent3 {
     void show() {

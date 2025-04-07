@@ -1,4 +1,4 @@
-package Beginner.advanced;
+package Beginner.OOPS;
 
 /**
  * If eat() is not override(not present in child) in child then op:

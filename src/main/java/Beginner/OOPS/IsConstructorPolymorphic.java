@@ -1,20 +1,20 @@
-package Beginner.advanced.OOPS;
+package Beginner.OOPS;
 
-class Parent {
-    Parent() {
+class Parent5 {
+    Parent5() {
         System.out.println("Parent constructor");
     }
 }
 
-class Child extends Parent {
-    Child() {
+class Child5 extends Parent5 {
+    Child5() {
         System.out.println("Child constructor");
     }
 }
 
 public class IsConstructorPolymorphic {
     public static void main(String[] args) {
-        Parent obj = new Child(); // which constructor runs?
+        Parent5 obj = new Child5(); // which constructor runs?
         //But this is not polymorphism. Java is not calling the constructor based on obj’s type — it simply runs both constructors during object creation.
     }
     /*Output:

@@ -1,12 +1,12 @@
-package Beginner.advanced;
+package Beginner.OOPS;
 
-class Parent {
+class Parent4 {
     void instanceMethod() {
         System.out.println("Parent's Instance Method");
     }
 }
 
-class Child extends Parent {
+class Child4 extends Parent4 {
     @Override
     void instanceMethod() {
         System.out.println("Child's Instance Method");
@@ -15,7 +15,7 @@ class Child extends Parent {
 
 public class DynamicBindingOverriding {
     public static void main(String[] args) {
-        Parent obj = new Child(); // Parent reference, Child object
+        Parent4 obj = new Child4(); // Parent reference, Child object
         obj.instanceMethod(); // 🔥 Calls Child's method (Dynamic Binding)
         //OP: Child's Instance Method
     }

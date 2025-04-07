@@ -1,4 +1,4 @@
-package Beginner.advanced;
+package Beginner.OOPS;
 
 class Parent1 {
     static void staticMethod() {

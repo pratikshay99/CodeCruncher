@@ -1,11 +1,11 @@
-package Beginner.advanced.OOPS;
+package Beginner.OOPS;
 
-class A {
+class A4 {
     int x = 5;
 
 }
 
-class B extends A {
+class B4 extends A4 {
     int x = 10;
 
     void custom() {
@@ -15,7 +15,7 @@ class B extends A {
 
 public class CallingSubClassOnlyMethod {
     public static void main(String[] args) {
-        A obj = new B();
+        A4 obj = new B4();
         System.out.println(obj.x);   //5
         // Fields are not polymorphic — they're resolved at compile-time via reference type. Unlike methods, no overriding happens.
 
