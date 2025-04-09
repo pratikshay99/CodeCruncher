@@ -10,9 +10,11 @@ public class SimpleExceptionHandling {
              at Beginner.advanced.SimpleExceptionHandling.main(SimpleExceptionHandling.java:5)
              */
         } catch (ArithmeticException e) {
-            /**Output:with-try-catch:->
-             Cannot divide by zero! */
-            System.out.println("Cannot divide by zero!");
+                /**Output:with-try-catch:->
+                 Cannot divide by zero! */
+                System.out.println("Cannot divide by zero!");
+
+//            throw new RuntimeException(e);//Caused by: java.lang.ArithmeticException: / by zero
         }
     }
 }
