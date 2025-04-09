@@ -1,4 +1,4 @@
-package Beginner.advanced;
+package Beginner.OOPS;
 
 interface Vehicle {
     // 1. abstract method (default in interfaces)

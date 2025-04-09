@@ -1,7 +1,7 @@
-package Beginner.advanced;
+package Beginner.OOPS;
 
 // Abstract class
-abstract class Animal {
+abstract class Animal2 {
     // Abstract method
     abstract void makeSound();
 
@@ -12,7 +12,7 @@ abstract class Animal {
 }
 
 // Subclass that extends Animal
-class Dog extends Animal {
+class Dog2 extends Animal2 {
     // Must implement the abstract method
     @Override
     void makeSound() {
@@ -22,8 +22,8 @@ class Dog extends Animal {
 
 public class AbstractEg {
     public static void main(String[] args) {
-        //Animal a = new Animal(); //Compiler-error... 'Animal' is abstract; cannot be instantiated
-        Animal a = new Dog();   // Polymorphism in action
+        //Animal2 a = new Animal2(); //Compiler-error... 'Animal' is abstract; cannot be instantiated
+        Animal2 a = new Dog2();   // Polymorphism in action
         a.makeSound();          // Output: Woof!
         a.eat();                // Output: This animal eats food.
     }
