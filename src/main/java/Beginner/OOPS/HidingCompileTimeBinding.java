@@ -1,5 +1,10 @@
 package Beginner.OOPS;
 
+/**
+ * What is Method Hiding in Java?
+ * When static methods are redefined in a subclass.
+ */
+
 class Parent1 {
     static void staticMethod() {
         System.out.println("Parent's Static Method");
