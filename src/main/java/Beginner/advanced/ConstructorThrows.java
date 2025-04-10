@@ -18,3 +18,6 @@ public class ConstructorThrows {
         }
     }
 }
+/*
+If a constructor declares a checked exception, you must handle it (try-catch or throws) when creating the object.
+ */
