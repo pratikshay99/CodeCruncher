@@ -1,7 +1,5 @@
 package Beginner.java8;
 
-import Beginner.advanced.Employee;
-
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -63,7 +61,8 @@ public class LambdaExpressions {
                 .stream()
                 .filter(s -> s.startsWith("A"))
                 .map(String::toUpperCase)
-                .toList();
+                .collect(Collectors.toList());
+               // .toList();
         System.out.println(results);
 
          /*✅Example:Custom Functional Interface
