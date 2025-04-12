@@ -2,6 +2,7 @@ package Beginner.java8;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -37,6 +38,8 @@ public class CollectorsUtility {
                 new Person("Meenakshi", "Bihar"),
                 new Person("Shreyasi", "Pune"));
 
+        Map<String, List<Person>> grouped =people.stream().collect(Collectors.groupingBy(Person::city));
+        System.out.println(grouped);
         System.out.println(people.stream().collect(Collectors.groupingBy(Person::city)));
         //{Bihar=[Person[name=Meenakshi, city=Bihar]], Pune=[Person[name=Pratiksha, city=Pune], Person[name=Shreyasi, city=Pune]]}
 
@@ -57,7 +60,17 @@ public class CollectorsUtility {
                                 Collectors.mapping(Person::name, Collectors.toList())
                         ))
         );
+
         //{Bihar=[Meenakshi], Pune=[Pratiksha, Shreyasi]}
+
+        List<Integer> nums = List.of(1, 2, 3);
+
+        String result = nums.stream()
+                .map(String::valueOf)
+                .collect(Collectors.joining("-"));
+        System.out.println(result);
+        // Output: "1-2-3"
+
     }
 }
 /***
