@@ -12,6 +12,12 @@ public class ReverseString {
             System.out.print(s.charAt(i));
         }
     }
+    /*
+    public String reverseString(String s) {
+        return new StringBuilder(s).reverse().toString();
+    }
+    */
+
 }
 /*
 1. Using stringBuilder inbuilt method: cba
