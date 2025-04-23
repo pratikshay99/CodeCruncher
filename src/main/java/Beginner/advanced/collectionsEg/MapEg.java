@@ -1,5 +1,6 @@
 package Beginner.advanced.collectionsEg;
 
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,7 +38,28 @@ public class MapEg {
         // ✅ containsKey() & containsValue()
         System.out.println("Contains key 'name'? " + map.containsKey("name"));     // true
         System.out.println("Contains value 'Java'? " + map.containsValue("Java")); // true
+//map.forEach gives you direct access to key and value separately using a BiConsumer.
+        map.forEach((k, v) -> System.out.println(k + ":" + v));
 
+       // map.entrySet().stream().sorted(Map.Entry.comparingByValue()).forEach(e->System.out.println(e.getKey()+" "+e.getValue()));
+//Map.Entry.comparingByValue() uses the natural ordering of the values for comparison. But in your map, you have some values as null,
+//        ✅ Solution: Use a null-safe comparator
+        map.entrySet()
+                .stream()
+                .sorted(Map.Entry.comparingByValue(Comparator.nullsFirst(Comparator.naturalOrder())))
+                .forEach(e -> System.out.println(e.getKey() + " " + e.getValue()));
+//Comparator.naturalOrder() → compares normally (e.g., alphabetical order for strings)
+//Comparator.nullsFirst(...) → makes sure that if any value is null, it doesn't cause a crash, and those entries appear first in the sorted list.
+
+        System.out.println("✅ Code to Skip null Values Before Sorting: ");
+        map.entrySet()
+                .stream()
+                .filter(e -> e.getValue() != null) // 🚫 skip entries with null values
+                .sorted(Map.Entry.comparingByValue()) // ✅ safe now: all values are non-null
+                .forEach(e -> System.out.println(e.getKey() + " " + e.getValue()));
+//🔍 Explanation:
+//.filter(e -> e.getValue() != null) ensures only entries with non-null values move to the sorting stage.
+//Since all values are now non-null, comparingByValue() works safely.
         // ✅ remove()
         map.remove("language");
         System.out.println("\nAfter removing 'language': " + map);
@@ -70,6 +92,11 @@ public class MapEg {
     }
 }
 /*
+🧠 Interview Pro Tip:
+If you're iterating over .entrySet(), you get a single Entry object → use .forEach(e -> ...)
+If you're using map.forEach(...), you get key and value separately → use .forEach((k, v) -> ...)
+
+
 Map Type                | Insertion Order Maintained?
 HashMap                 | ❌ No | Order is unpredictable
 LinkedHashMap           | ✅ Yes | Maintains insertion order
