@@ -1,0 +1,324 @@
+🔥API Gateway: (Edge Server) e.g receptionist
+-acts as single point of entry for collection of microservices
+-all microservices accessed through single port or route.
+-acts as an intermediary between clients and backend services.
+===============================================================================================================================================
+“API Gateway is a design pattern, whereas Spring Cloud Gateway is a Spring-based implementation of that pattern used to build reactive and scalable gateways.” In production, we don’t expose service ports publicly. Only the gateway is exposed, and all internal services communicate through service discovery
+
+===============================================================================================================================================
+🔥2 ways to create api gateway: 
+1. Programmatic configuration: create Spring Cloud Gateway as Java bean.
+2. Property configuration: create components of Spring Cloud Gateway as properties in application.properties/application.yml file.
+===============================================================================================================================================
+🔥*Architecture: 3 components:
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: user-service
+          uri: http://localhost:8081
+          predicates:
+            - Path=/users/**
+          filters:
+            - AddRequestHeader=X-Request-Source, Gateway
+	 - id: order-service
+          uri: http://localhost:8082
+          predicates:
+            - Path=/orders/**
+1.🔥 Route: Defines where request goes, consist of ID, destination URI, predicates, and filters.
+2.🔥 Predicates: (Condition)
+	Decides when route should apply
+	evaluates input against condition defined by Predicate & returns true if condition satisfied
+	used to match HTTP requests, route is matched if Predicate returns true.
+3.🔥 Filter: Used to modify request/response, or add logic like auth, logging above e.g Adds header only for /users route(👉Route Filter: Only applies to /users/**) & Global: Automatically applies to all routes
+
+	Types:
+		Pre-filter → runs BEFORE request goes to microservice (logging, adding header, auth:JWT validation, Rate limiting)
+		Post-filter → runs AFTER response comes back (logging resp, modify response/resp headers, Response transformation)
+
+🔹Types of Filters (Interview Point)
+“Global filters are implemented as Java classes and apply to all requests automatically, whereas route-specific filters are configured in YAML or Java and apply only to specific routes
+
+| Type          | Meaning                   |
+| ------------- | ------------------------- |
+| Global Filter | Applies to all routes     |👉 = code (Java class)
+| Route Filter  | Applies to specific route |👉 = YAML OR Java code
+
+👉 Some built-in filters (like logging, retry, circuit breaker) can be configured in YAML
+
+But: Custom global logic = always Java class
+=============================================================================================================================================
+🔥features:
+-Routing: dynamic routing, Path Rewriting
+-security(centralized): Validates JWT from Keycloak, Blocks unauthorized requests before they hit services
+-Transformation: 
+-Rate limiting & Throttling: (Limits number of requests per user)prevent 1 client from overwhelming back end services, enforce rate limits (how much request can send)
+-caching: any common requests occur it save responses & this make faster when those ruquests made again & again
+-Logging & monitoring: keep track of all interactions passing through it
+-translation: translate data to match client's preferences
+-Error handling
+-Load balancing: distribute traffic to multiple instances of service to prevent overload
+-modify request & response
+-Circuit Breaker: Prevents system failure using fallback
+-Authentication and authorization
+-Cross-cutting Features, Handled once at gateway:Logging, Rate limiting, Authentication, CORS
+=============================================================================================================================================
+🔥 Rate Limit:
+Limits how many requests a user/client can make
+Why Strict for Login?
+Prevents:
+-Brute-force attacks
+-Password guessing
+-Bot traffic
+“For sensitive APIs like login, we configure stricter rate limits such as 3 requests per second using Spring Cloud Gateway’s RequestRateLimiter with Redis, typically limiting per IP or user// “For login APIs, we keep burst capacity equal to replenish rate to avoid spikes., If the limit is exceeded, the gateway returns HTTP 429.
+
+e.g spring:
+  cloud:
+    gateway:
+      routes:
+        - id: login-api
+          uri: http://localhost:8083
+          predicates:
+            - Path=/login/**
+          filters:
+            - name: RequestRateLimiter
+              args:
+                redis-rate-limiter.replenishRate: 3
+                redis-rate-limiter.burstCapacity: 3
+                key-resolver: "#{@ipKeyResolver}"
+🔹 Simple Key Resolver (Java)
+@Bean
+public KeyResolver ipKeyResolver() {
+    return exchange -> Mono.just(
+        exchange.getRequest()
+                .getRemoteAddress()
+                .getAddress()
+                .getHostAddress()
+    );
+}
+
+
+or can also be 
+redis-rate-limiter.replenishRate: 5                 redis-rate-limiter.burstCapacity: 10
+| Config            | Meaning                       |
+| ----------------- | ----------------------------- |
+| replenishRate: 5  | 5 requests per second allowed |
+| burstCapacity: 10 | max burst allowed temporarily |
+
+
+👉 Rate limiting requires Redis
+Because:
+It stores request count per user/IP
+Works in distributed systems
+👉 Common setup uses: Redis
+🔹 Key Resolver (Who to limit?)
+You must define who is being limited
+===============================================================================================================================================
+🔥Load Balancing?
+-distributing incoming requests across multiple instances of the same service.
+👉 Suppose you have 2 instances of User Service:
+USER-SERVICE-1 → :8081  
+USER-SERVICE-2 → :8082
+🔸 Without Load Balancing ❌
+All requests → only one service → overload
+🔸 With Load Balancing ✅
+Request 1 → Instance 1  
+Request 2 → Instance 2  
+Request 3 → Instance 1  
+👉 Load gets distributed
+🔹 Simple Code Example (YAML)
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: user-service
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/users/**
+🔹 What is lb:// ? - It tells Gateway:
+✔ “Don’t call fixed URL”
+✔ “Use service discovery and load balance”
+
+lb://USER-SERVICE → enables load balancing(lb://=load balancing)
+
+🔹 Works With👉 Spring Cloud Netflix Eureka
+-All service instances register in Eureka
+-Gateway picks one automatically
+Flow : 
+User → Gateway  
+        ↓
+   lb://USER-SERVICE  
+        ↓
+   Eureka gives list  
+        ↓
+   Gateway selects instance  
+
+Gateway does NOT know ports manually
+✔ It discovers them dynamically from Eureka
+
+🔹 What if no Eureka?
+👉 Then you must manually configure:
+uri: http://localhost:8081
+❌ No load balancing
+❌ Static routing
+
+Same server, same service, different ports ✅ (common in dev/testing)
+Different servers, same service ✅ (common in production)
+🔹 1. Same Server (Local / Dev Setup)
+👉 You run the same service twice on one machine:
+USER-SERVICE → localhost:8081  
+USER-SERVICE → localhost:8082  
+
+✔ Same code
+✔ Same app
+✔ Different ports
+👉 Used for:
+Testing load balancing
+Local development
+
+🔹 2. Different Servers (Production Setup)
+👉 Real-world scenario:
+Server 1 → USER-SERVICE (port 8080)  
+Server 2 → USER-SERVICE (port 8080)  
+
+✔ Same service
+✔ Same port
+✔ Different machines
+
+🔹 How Gateway Finds Them
+Using
+Spring Cloud Netflix Eureka
+👉 Each instance registers like:
+
+USER-SERVICE → 192.168.1.10:8080  
+USER-SERVICE → 192.168.1.11:8080  
+
+👉 Gateway uses:
+uri: lb://USER-SERVICE
+
+✔ Automatically picks one
+===============================================================================================================================================
+🔥Implementation using:
+1. Spring cloud gateway → non-blocking, reactive, faster (request does NOT wait, it continues handling other work)
+	Uses Reactive (Spring WebFlux Framework)
+	Handles thousands of requests efficiently
+2. Zuul → old, blocking(request waits until processing is finished: Can’t handle other requests during that time)
+	Uses Servlet model (Spring MVC Framework)
+	Each request → one thread → waits
+
+=============================================================================================================================================
+🔥 dependencies:
+Gateway (SPRING CLOUD ROUTING)
+Spring Web
+Eureka Discovery Client
+
+Spring Cloud gateway:
+<dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-starter-gateway</artifactId>
+</dependency>
+
+Note: If you include the starter, but you do not want the gateway to be enabled, set
+spring.cloud.gateway.enabled=false
+==============================================================================================================================================
+🔥 API Gateway tools:**
+Spring Cloud Gateway: Java-based API Gateway for Spring Boot applications.
+Zuul: Provided by Netflix, designed for microservices.
+AWS API Gateway: Managed service by AWS.
+Kong: Open-source, built on NGINX.
+Traefik: Cloud-native, supports Kubernetes.
+===============================================================================================================================================
+**role of caching in API Gateways:**
+-cache responses from microservices to reduce latency, minimize load, and improve user experience.
+-Cache invalidation policies like time-to-live (TTL) and etag-based validation are commonly used.(Data in the cache can become outdated or "stale" when the original source changes. Cache invalidation is the process of removing or updating cached data to ensure it stays fresh and accurate.)
+===============================================================================================================================================
+**API Gateway authentication:**
+API Gateways authenticate incoming requests using mechanisms like:
+OAuth 2.0 (Access Tokens).
+JWT (JSON Web Tokens).
+API Keys.
+Basic Authentication.
+===============================================================================================================================================
+Request Aggregation: combining responses from multiple microservices into  single response to client, reducing need for multiple client calls.
+===============================================================================================================================================
+**API Gateway Vs Load balancer:**
+ both deal with handling incoming requests, but they serve different purposes & operate at different levels of system architecture
+
+API Gateway:
+Acts as a facade for multiple microservices, providing a single entry point for clients to interact with the backend services.
+Manages API-level concerns, such as request routing, authentication, rate limiting, caching, monitoring, and response transformation.
+Request routing to specific microservices.
+Authentication and authorization (e.g., OAuth, API keys).
+Provides a unified interface for multiple backend services, simplifying client interactions.
+
+Load Balancer:
+Distributes incoming traffic across multiple servers or instances to ensure high availability and scalability.
+Primarily focuses on network-level concerns, such as ensuring that no single server is overwhelmed by traffic.
+Distributing traffic across multiple servers to balance the load.
+SSL/TLS termination for secure communication.
+Focuses on traffic distribution to ensure system reliability and performance.
+e.g Apache HTTP Server Load Balancing, AWS Elastic Load Balancer (ELB), NGINX
+
+Note: In modern architectures, API Gateways often work in conjunction with Load Balancers:
+The Load Balancer distributes incoming traffic across API Gateway instances.
+The API Gateway then routes and manages requests to the appropriate microservices.
+===============================================================================================================================================
+How does an API Gateway handle circuit breaking?
+-Circuit breaking prevents cascading failures by stopping requests to a failing service.
+-API Gateways use libraries like Hystrix or Resilience4j to monitor service health and trip the circuit when a threshold of failures is reached.
+============================================================================================================================================
+What are some challenges of using an API Gateway?
+-Single Point of Failure: If the gateway goes down, it affects the entire system.
+-Latency: Adds overhead to requests.
+-Scalability: Needs to handle traffic spikes.
+-Complexity: Requires proper configuration and maintenance.
+===============================================================================================================================================
+Explain how security is enforced using an API Gateway.
+Authentication: Verifying user identity (e.g., via OAuth or JWT).
+Authorization: Ensuring users can access only permitted resources.
+Input Validation: Checking for SQL injection, XSS, etc.
+HTTPS: Enforcing secure communication.
+===============================================================================================================================================
+How do API Gateways support versioning?
+API Gateways handle versioning using:
+URL Versioning: /v1/resource
+Header Versioning: X-API-Version: v1
+Parameter Versioning: /resource?version=v1
+===============================================================================================================================================
+How does an API Gateway integrate with a service discovery system?
+API Gateways use service discovery tools like Eureka, Consul, or Zookeeper to dynamically route requests to the appropriate microservice instances.
+===============================================================================================================================================If one microservice is down, how should an API Gateway handle requests?
+Use fallback strategies like:
+Returning a cached response.
+Returning a default response.
+Showing a user-friendly error message.
+Implementing a circuit breaker to prevent further failures.
+===============================================================================================================================================
+How would you troubleshoot latency issues in an API Gateway?
+Check for:
+High traffic leading to bottlenecks.
+Inefficient routing or aggregation logic.
+Network latency between the gateway and microservices.
+Database or backend service slowdowns.
+===============================================================================================================================================
+How do you monitor an API Gateway?
+Use monitoring tools to track:
+API metrics (e.g., response time, throughput, error rates).
+Logs for debugging and audits.
+Distributed tracing tools (e.g., Zipkin, Jaeger) to analyze end-to-end requests.
+===============================================================================================================================================
+Design an API Gateway for a large e-commerce system.
+Key considerations:
+Authentication: OAuth 2.0 for secure access.
+Rate Limiting: Protect APIs from abuse.
+Load Balancing: Distribute traffic to multiple instances.
+Aggregation: Combine responses from product, order, and payment services.
+Monitoring: Implement tracing and logging for observability.
+===============================================================================================================================================How authentication is handled?
+JWT validation at gateway
+Reject unauthorized requests before hitting services
+===============================================================================================================================================
+. When to Use Spring Cloud Gateway?
+You are using Spring Boot microservices
+Need reactive & non-blocking gateway
+===============================================================================================================================================
