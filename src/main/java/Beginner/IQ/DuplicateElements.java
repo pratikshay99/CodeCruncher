@@ -19,6 +19,6 @@ public class DuplicateElements {
         System.out.println(duplicate);
 
 //2. using stream
-        Set<Integer> dup= 
+        //Set<Integer> dup=
     }
 }
