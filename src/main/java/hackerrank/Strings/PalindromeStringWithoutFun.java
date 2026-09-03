@@ -9,7 +9,7 @@ public class PalindromeStringWithoutFun {
         sc.close();
 
         int n = A.length();
-
+//2nd way
         for (int i = 0; i < n / 2; i++) {
             if (A.charAt(i) != A.charAt(n - i - 1)) {
                 System.out.println("No");
@@ -18,6 +18,20 @@ public class PalindromeStringWithoutFun {
         }
 
         System.out.println("Yes");
+//3rd way:
+        String str="madam";
+        int left=0, right= str.length()-1;
+
+        while(left<right){
+            if(str.charAt(left)!=str.charAt(right)){
+                System.out.println("No");
+                return;
+            }
+            left++;
+            right--;
+        }
+        System.out.println("Palindrome");
+
     }
 }/*
 ✅ No Extra Memory (O(1) Space) → No StringBuilder or extra string creation.

@@ -1,4 +1,4 @@
-package Beginner;
+package Beginner.IQ;
 /**-for loop instead of while: Idiomatic for a fixed-bound iteration; increment can't be "forgotten"
  -String[] args instead of String args[]: rather than c style	Modern Java array declaration syntax
  -Renamed sb, lg, sm → lowerCase, upperCase, digits, specialChars	Self-documenting; no ambiguity about what each builder holds
