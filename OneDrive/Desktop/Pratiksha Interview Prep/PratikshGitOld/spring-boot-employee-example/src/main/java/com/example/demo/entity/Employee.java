@@ -17,7 +17,12 @@ public class Employee {
     private String name;
     private String department;
     private Double salary;
-
+    /**
+     @Column(name = "emp_name", nullable = false, length = 100)
+     private String name;
+     @Column(unique = true)
+     private String email;
+     */
     public Employee() {
     }
 
@@ -39,6 +44,8 @@ public class Employee {
         return name;
     }
 
+    // maybe also: password, ssn, internal audit fields, etc.
+
     public void setName(String name) {
         this.name = name;
     }
@@ -59,3 +66,15 @@ public class Employee {
         this.salary = salary;
     }
 }
+/**
+ @Column(name = "emp_name", nullable = false, length = 100)
+ private String name;
+
+ @Column(unique = true)
+ private String email;
+ @Column is only required when you want to customize the mapping — e.g., a different column name, nullable = false, unique = true, length, etc.
+ If you don't specify it, JPA/Hibernate auto-maps the field name to a column of the same name by default.
+
+ if asked "why didn't you use @Column?", answer confidently: "By default JPA maps field names to column names implicitly — I only add @Column when I need custom naming or constraints like nullable/unique.
+
+ */

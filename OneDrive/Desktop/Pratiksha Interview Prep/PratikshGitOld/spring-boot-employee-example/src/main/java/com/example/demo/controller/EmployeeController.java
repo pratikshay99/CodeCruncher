@@ -14,6 +14,7 @@ public class EmployeeController {
 
     private final EmployeeService employeeService;
 
+    //  @Autowired   // REQUIRED before Spring 4.3, even with just one constructor, pring 4.3+ → if there's exactly one constructor, Spring implicitly uses it for autowiring, @Autowired becomes optional. If there are multiple constructors, you still must explicitly mark one with @Autowired — the ambiguity rule never went away.
     public EmployeeController(EmployeeService employeeService) {
         this.employeeService = employeeService;
     }
@@ -44,3 +45,28 @@ public class EmployeeController {
         return ResponseEntity.noContent().build();
     }
 }
+/**
+     Controller → Service → Repository → Entity
+                      ↑
+             converts Entity to DTO here
+                    ↓
+    Controller ← Service ← DTO
+
+ Client sends HTTP request
+ ↓
+ @GetMapping/@PostMapping (Controller) — matches URL + verb
+ ↓
+ @PathVariable / @RequestBody — pulls data out of the request
+ ↓
+ Controller calls Service (injected via constructor)
+ ↓
+ Service (business logic) calls Repository
+ ↓
+ Repository (JpaRepository) talks to database via Entity
+ ↓
+ Service converts Entity → DTO
+ ↓
+ Controller wraps DTO in ResponseEntity with a status code
+ ↓
+ Client receives JSON response
+ */
